@@ -63,12 +63,19 @@ app.delete("/tasks/:id", (req, res) => {
 
 // CREATE SUBJECT
 app.post("/subjects", (req, res) => {
+  // VALIDATION
+  if (!req.body.name) {
+    return res.status(400).json({ error: "Subject name is required" });
+  }
+
   const subject = {
     subject_id: Date.now().toString(),
+    name: req.body.name,
     ...req.body
   };
+
   subjects.push(subject);
-  res.json(subject);
+  res.status(201).json(subject);
 });
 
 // GET ALL SUBJECTS
