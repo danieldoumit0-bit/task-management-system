@@ -14,7 +14,12 @@ let subjects = [];
 ========================= */
 
 // CREATE TASK
-app.post("/tasks", (req, res) => {
+const task = {
+  task_id: Date.now().toString(),
+  name: req.body.name,
+  subject_id: req.body.subject_id, 
+  ...req.body
+};
   // VALIDATION 
   if (!req.body.name) {
     return res.status(400).json({ error: "Task name is required" });
