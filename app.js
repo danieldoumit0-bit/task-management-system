@@ -10,6 +10,14 @@ let tasks = [];
 let subjects = [];
 
 /* =========================
+   HOME ROUTE 
+========================= */
+
+app.get("/", (req, res) => {
+  res.send("Task Management System API is running 🚀");
+});
+
+/* =========================
    TASK CRUD
 ========================= */
 
