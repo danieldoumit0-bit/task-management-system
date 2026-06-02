@@ -15,12 +15,19 @@ let subjects = [];
 
 // CREATE TASK
 app.post("/tasks", (req, res) => {
+  // VALIDATION 
+  if (!req.body.name) {
+    return res.status(400).json({ error: "Task name is required" });
+  }
+
   const task = {
     task_id: Date.now().toString(),
+    name: req.body.name,
     ...req.body
   };
+
   tasks.push(task);
-  res.json(task);
+  res.status(201).json(task);
 });
 
 // GET ALL TASKS
