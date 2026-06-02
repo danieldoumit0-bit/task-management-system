@@ -13,21 +13,27 @@ let subjects = [];
    TASK CRUD
 ========================= */
 
-// CREATE TASK
-const task = {
-  task_id: Date.now().toString(),
-  name: req.body.name,
-  subject_id: req.body.subject_id, 
-  ...req.body
-};
-  // VALIDATION 
+// CREATE TASK (WITH VALIDATION + RELATION TO SUBJECT)
+app.post("/tasks", (req, res) => {
+
+  // validation: name required
   if (!req.body.name) {
     return res.status(400).json({ error: "Task name is required" });
+  }
+
+  // validation: subject must exist
+  const subjectExists = subjects.find(
+    s => s.subject_id === req.body.subject_id
+  );
+
+  if (!subjectExists) {
+    return res.status(400).json({ error: "Invalid subject_id" });
   }
 
   const task = {
     task_id: Date.now().toString(),
     name: req.body.name,
+    subject_id: req.body.subject_id,
     ...req.body
   };
 
@@ -68,7 +74,7 @@ app.delete("/tasks/:id", (req, res) => {
 
 // CREATE SUBJECT
 app.post("/subjects", (req, res) => {
-  // VALIDATION
+
   if (!req.body.name) {
     return res.status(400).json({ error: "Subject name is required" });
   }
